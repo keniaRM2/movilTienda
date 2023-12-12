@@ -1,39 +1,135 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:e_commerce_flutter/src/view/screen/cart_screen.dart';
 import 'package:e_commerce_flutter/src/view/screen/categories_screen.dart';
-//import 'package:e_commerce_flutter/src/view/widget/categories_grid_view.dart';
 import 'package:e_commerce_flutter/src/view/widget/logo_empresa.dart';
-import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 import 'package:e_commerce_flutter/core/app_data.dart';
 import 'package:e_commerce_flutter/core/app_color.dart';
 import 'package:e_commerce_flutter/src/controller/product_controller.dart';
+import 'package:e_commerce_flutter/src/controller/auth_controller.dart';
 import 'package:e_commerce_flutter/src/view/widget/product_grid_view.dart';
 import 'package:e_commerce_flutter/src/view/widget/list_item_selector.dart';
 
+final ProductController controller = Get.put(ProductController());
+final AuthController authController = Get.put(AuthController());
+
 enum AppbarActionType { leading, trailing }
 
-final ProductController controller = Get.put(ProductController());
+class ProductListScreen extends StatefulWidget {
+  // ignore: use_super_parameters
+  const ProductListScreen({Key? key}) : super(key: key);
 
-class ProductListScreen extends StatelessWidget {
-  const ProductListScreen({super.key});
+  @override
+  // ignore: library_private_types_in_public_api
+  _ProductListScreenState createState() => _ProductListScreenState();
+}
 
-  PreferredSize _getAppBar(BuildContext context) {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(100),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+class _ProductListScreenState extends State<ProductListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Llama a la función al cargar la pantalla por primera vez
+    _updateScreen();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Llama a la función cada vez que cambian las dependencias
+    _updateScreen();
+  }
+
+  void _updateScreen() async {
+    controller.loading.value = true;
+
+    await controller.getAllItems();
+    // Actualiza la pantalla después de obtener los datos
+    controller.loading.value = false;
+    if(mounted){
+      setState(() {});
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: _getAppBar(context),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const EmpresaLogoWidget(),
-              _appBarActionButton(AppbarActionType.trailing, context),
+              Text(
+                "Tejiendo Estilo Con Encanto ",
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
+              Text(
+                "Contamos con variedad de diseños",
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              _recommendedProductListView(context),
+              _topCategoriesHeader(context),
+              _topCategoriesListView(),
+              const SizedBox(height: 20),
+              Text(
+                "Lo más reciente ",
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
+              GetBuilder(builder: (ProductController controller) {
+                if (controller.loading.value) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return ProductGridView(
+                    items: controller.filteredProducts,
+                    likeButtonPressed: (index) => controller.isFavorite(index),
+                    isPriceOff: (product) => controller.isPriceOff(product),
+                  );
+                }
+              }),
             ],
           ),
         ),
       ),
     );
   }
+
+ PreferredSize _getAppBar(BuildContext context) {
+  return PreferredSize(
+    preferredSize: const Size.fromHeight(100),
+    child: SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: FutureBuilder<String>(
+          future: authController.getFullNameUser(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // Mientras está en espera, puedes mostrar un indicador de carga
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              // En caso de error, puedes manejar el error adecuadamente
+              return Text('Error: ${snapshot.error}');
+            } else {
+              String fullNameUser = snapshot.data ?? '';
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const EmpresaLogoWidget(),
+                  Text(fullNameUser),
+                  _appBarActionButton(AppbarActionType.trailing, context),
+                ],
+              );
+            }
+          },
+        ),
+      ),
+    ),
+  );
+}
+
 
   Widget _appBarActionButton(AppbarActionType type, BuildContext context) {
     IconData icon = Icons.shopping_cart;
@@ -48,10 +144,9 @@ class ProductListScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         constraints: const BoxConstraints(),
         onPressed: () {
-          // Navegar a la pantalla shopping_cart.dart
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) =>const CartScreen()),
+            MaterialPageRoute(builder: (context) => const CartScreen()),
           );
         },
         icon: Icon(icon, color: AppColor.white),
@@ -97,7 +192,8 @@ class ProductListScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const CategoriesScreen()),
+                                  builder: (context) =>
+                                      const CategoriesScreen()),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -135,27 +231,26 @@ class ProductListScreen extends StatelessWidget {
     );
   }
 
-Widget _topCategoriesHeader(BuildContext context) {
-  return Padding(
-    padding: const EdgeInsets.only(top: 10),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Categorias",
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-        const SizedBox(height: 10), 
-      ],
-    ),
-  );
-}
-
+  Widget _topCategoriesHeader(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Categorias",
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+        ],
+      ),
+    );
+  }
 
   Widget _topCategoriesListView() {
     return ListItemSelector(
@@ -165,50 +260,4 @@ Widget _topCategoriesHeader(BuildContext context) {
       },
     );
   }
-
-
-   
-
-  @override
-Widget build(BuildContext context) {
-  controller.getAllItems();
-  return Scaffold(
-    extendBodyBehindAppBar: true,
-    appBar: _getAppBar(context),
-    body: SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(20), // Apliqué el padding al SingleChildScrollView
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Tejiendo Estilo Con Encanto ",
-              style: Theme.of(context).textTheme.displayLarge,
-            ),
-            Text(
-              "Contamos con variedad de diseños",
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            _recommendedProductListView(context),
-            _topCategoriesHeader(context),
-            _topCategoriesListView(),
-            const SizedBox(height: 20), // Espacio entre los elementos
-            Text(
-              "Lo más reciente ",
-              style: Theme.of(context).textTheme.displayLarge,
-            ),
-            GetBuilder(builder: (ProductController controller) {
-              return ProductGridView(
-                items: controller.filteredProducts,
-                likeButtonPressed: (index) => controller.isFavorite(index),
-                isPriceOff: (product) => controller.isPriceOff(product),
-              );
-            }),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
 }

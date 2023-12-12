@@ -3,6 +3,7 @@ import 'package:e_commerce_flutter/core/app_data.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesScreen extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const CategoriesScreen({Key? key});
 
   PreferredSizeWidget _appBar(BuildContext context) {

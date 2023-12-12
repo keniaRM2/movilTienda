@@ -1,18 +1,14 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import '../../core/main_constants.dart';
 import '../../core/my_local_storage.dart';
 
+final MyLocalStorage myLocalStorage = MyLocalStorage();
+
 class MainService {
-  final MyLocalStorage myLocalStorage = MyLocalStorage();
-
-  Map<String, String> get config => {
-        'Authorization':"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoiY2xpZW50ZUBnbWFpbC5jb20iLCJpZFVzdWFyaW8iOjMsImlkUGVyc29uYSI6MiwiaWF0IjoxNzAyMjY5ODU4LCJleHAiOjE3MDIzNTYyNTh9.eXBpeC2l6efc16eESriwWDUtfApaHHAARwBowN7hccg",
-        // 'Authorization': myLocalStorage.getValue(MainConstants.token).toString(),
-        'Content-Type': 'application/json',
-  };
-
-  Future<http.Response> _handleRequest(Future<http.Response> Function() requestMethod) async {
+  Future<http.Response> _handleRequest(
+      Future<http.Response> Function() requestMethod) async {
     final response = await requestMethod();
 
     if (response.statusCode != MainConstants.exito) {
@@ -20,7 +16,8 @@ class MainService {
       if (badRequest != null && badRequest.containsKey('mensaje')) {
         throw Exception(badRequest['mensaje']);
       } else {
-        throw Exception('${MainConstants.mensajeErrorGeneral} (${response.statusCode})');
+        throw Exception(
+            '${MainConstants.mensajeErrorGeneral} (${response.statusCode})');
       }
     }
 
@@ -28,6 +25,12 @@ class MainService {
   }
 
   Future<http.Response> postRequest(String path, dynamic data) async {
+    String token = await myLocalStorage.getValue(MainConstants.token);
+    Map<String, String> config = {
+      'Authorization': token,
+      'Content-Type': 'application/json',
+    };
+
     return await _handleRequest(() async {
       return await http.post(
         Uri.parse(path),
@@ -38,6 +41,12 @@ class MainService {
   }
 
   Future<http.Response> getRequest(String path) async {
+    String token = await myLocalStorage.getValue(MainConstants.token);
+    Map<String, String> config = {
+      'Authorization': token,
+      'Content-Type': 'application/json',
+    };
+
     return await _handleRequest(() async {
       return await http.get(
         Uri.parse(path),
@@ -47,6 +56,12 @@ class MainService {
   }
 
   Future<http.Response> putRequest(String path, dynamic data) async {
+    String token = await myLocalStorage.getValue(MainConstants.token);
+    Map<String, String> config = {
+      'Authorization': token,
+      'Content-Type': 'application/json',
+    };
+
     return await _handleRequest(() async {
       return await http.put(
         Uri.parse(path),
@@ -57,6 +72,12 @@ class MainService {
   }
 
   Future<http.Response> deleteRequest(String path, dynamic data) async {
+    String token = await myLocalStorage.getValue(MainConstants.token);
+    Map<String, String> config = {
+      'Authorization': token,
+      'Content-Type': 'application/json',
+    };
+
     return await _handleRequest(() async {
       return await http.delete(
         Uri.parse(path),

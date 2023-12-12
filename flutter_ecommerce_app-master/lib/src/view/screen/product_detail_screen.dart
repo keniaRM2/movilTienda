@@ -1,3 +1,4 @@
+import 'package:e_commerce_flutter/src/view/screen/cart_screen.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_flutter/core/app_color.dart';
@@ -64,7 +65,7 @@ class ProductDetailScreen extends StatelessWidget {
 
   Widget _showColor(String hexColor) {
     Color color;
-    if (hexColor != null && hexColor.isNotEmpty) {
+    if (hexColor.isNotEmpty) {
       color = Color(int.parse(hexColor.replaceAll('#', '0xFF')));
     } else {
       // Color por defecto si el valor es nulo o vacío
@@ -220,7 +221,6 @@ class ProductDetailScreen extends StatelessWidget {
                       const SizedBox(height: 10),
                       Text(product.about),
 
-
                       // SizedBox(
                       //   height: 40,
                       //   child: GetBuilder<ProductController>(
@@ -232,7 +232,18 @@ class ProductDetailScreen extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: product.isAvailable
-                              ? () => controller.addToCart(product)
+                              ? () {
+                                  try {
+                                    
+                                    controller.addToCart(product);
+                                    
+                                    myToast.showToastSuccess(context, "¡Producto agregado!");
+                                    
+                                    Navigator.pop(context);
+                                  } catch (e) {
+                                    myToast.showToastError( context,e.toString());
+                                  }
+                                }
                               : null,
                           child: const Text("Agregar al carrito"),
                         ),

@@ -1,3 +1,4 @@
+import 'package:e_commerce_flutter/src/services/compra_service.dart';
 import 'package:e_commerce_flutter/src/services/stock_service.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:e_commerce_flutter/core/app_data.dart';
@@ -12,12 +13,17 @@ import 'package:e_commerce_flutter/src/services/carrito_service.dart';
 import 'package:e_commerce_flutter/src/services/producto_service.dart';
 
 class ProductController extends GetxController {
+  RxBool loading = true.obs;
   final ProductoService productoService = ProductoService();
   final CarritoService carritoService = CarritoService();
   final StockService stockService = StockService();
+  final CompraService compraService = CompraService();
 
-  List<Product> allProducts = AppData.products;
-  RxList<Product> filteredProducts = AppData.products.obs;
+  List<Product> allProducts = [];
+  // List<Product> allProducts = AppData.products;
+  RxList<Product> filteredProducts = <Product>[].obs;
+
+  // RxList<Product> filteredProducts = AppData.products.obs;
   RxList<Product> cartProducts = <Product>[].obs;
   RxList<ProductCategory> categories = AppData.categories.obs;
   RxInt totalPrice = 0.obs;
@@ -44,22 +50,52 @@ class ProductController extends GetxController {
   }
 
   void addToCart(Product product) {
-    product.quantity++;
-    cartProducts.add(product);
-    cartProducts.assignAll(cartProducts);
-    calculateTotalPrice();
+    Map<String, dynamic> parameters = {'idStock': product.idStock};
+
+    carritoService.agregarProductoCarrito(parameters);
+    obtenerMiCarrito();
+
+    // product.quantity++;
+    // cartProducts.add(product);
+    // cartProducts.assignAll(cartProducts);
+    // calculateTotalPrice();
   }
 
-  void increaseItemQuantity(Product product) {
+  void increaseItemQuantity(Product product)  {
+    // int newQuantity = product.quantity + 1;
+    // Map<String, dynamic> parameters = {
+    //   'idStock': product.idStock,
+    //   'cantidad': newQuantity
+    // };
+
+    // await carritoService.actualizar(parameters);
+
     product.quantity++;
     calculateTotalPrice();
     update();
   }
 
-  void decreaseItemQuantity(Product product) {
+  void decreaseItemQuantity(Product product)  {
+    // int newQuantity = product.quantity - 1;
+    // if (newQuantity <= 0) {
+    //   throw Exception("Cantidad no valida");
+    // }
+    // Map<String, dynamic> parameters = {
+    //   'idStock': product.idStock,
+    //   'cantidad': newQuantity
+    // };
+
+    // await carritoService.actualizar(parameters);
+
     product.quantity--;
     calculateTotalPrice();
     update();
+  }
+
+  Future<void> deleteFromCar(Product product) async {
+    Map<String, dynamic> parameters = {'idStock': product.idStock};
+
+    await carritoService.eliminar(parameters);
   }
 
   bool isPriceOff(Product product) => product.off != null;
@@ -85,16 +121,35 @@ class ProductController extends GetxController {
     );
   }
 
-  getCartItems() {
+  Future<void> getCartItems() async {
     // cartProducts.assignAll(
     //   allProducts.where((item) => item.quantity > 0),
     // );
-    obtenerMiCarrito();
+    await obtenerMiCarrito();
   }
 
-  getAllItems() {
+  Future<void> getAllItems() async {
     // filteredProducts.assignAll(allProducts);
-    listAllProducts();
+    await listAllProducts();
+  }
+
+  Future<void> shop() async {
+    List<Map<String, dynamic>> productos = [];
+
+    for (Product product in cartProducts) {
+      Map<String, dynamic> producto = {
+        'stockId': product.idStock,
+        'cantidad': product.quantity
+      };
+      productos.add(producto);
+    }
+
+
+    Map<String, dynamic> parameters = {'productos': productos};
+
+    await compraService.registrarCompra(parameters);
+
+    await obtenerMiCarrito();
   }
 
   List<Numerical> sizeType(Product product) {
@@ -190,7 +245,8 @@ class ProductController extends GetxController {
               images: imagenesString,
               isFavorite: true,
               rating: Random().nextInt(3) + 3,
-              type: ProductType.all);
+              type: ProductType.all,
+              idStock: stockData['idStock'] as int);
           productos.add(product);
         }
       }
@@ -203,7 +259,7 @@ class ProductController extends GetxController {
 
       calculateTotalPrice();
     } catch (e) {
-      // myToast.showToastError(context, e.toString());
+      // myToast.showToastError(context,e.toString();
       // print('Error: $e');
     }
   }
@@ -234,23 +290,19 @@ class ProductController extends GetxController {
               images: imagenesString,
               isFavorite: true,
               rating: Random().nextInt(3) + 3,
-              type: ProductType.all, 
+              type: ProductType.all,
               idStock: stockData['idStock'] as int,
               existence: stockData['existencia'] as int,
               sizeName: tallaData['nombre'] as String,
-              color: colorData['color'] as String
-          
-            );
+              color: colorData['color'] as String);
           productos.add(product);
         }
       }
 
       allProducts = productos.where((item) => item.quantity > 0).toList();
       filteredProducts.assignAll(allProducts);
-
-
     } catch (e) {
-      // myToast.showToastError(context, e.toString());
+      // myToast.showToastError(context,e.toString();
       // print('Error: $e');
     }
   }

@@ -6,6 +6,7 @@ import 'package:e_commerce_flutter/core/app_data.dart';
 import 'package:e_commerce_flutter/src/view/screen/cart_screen.dart';
 import 'package:e_commerce_flutter/src/view/widget/page_wrapper.dart';
 import 'package:e_commerce_flutter/src/view/screen/profile_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/login_screen.dart';
 import 'package:e_commerce_flutter/src/view/screen/product_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,7 +16,8 @@ class HomeScreen extends StatefulWidget {
     ProductListScreen(),
     CategoriesScreen(),
     CartScreen(),
-    ProfileScreen()
+    ProfileScreen(),
+    LoginScreen()
   ];
 
   @override
