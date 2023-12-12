@@ -1,5 +1,8 @@
 import 'package:e_commerce_flutter/core/app_color.dart';
+import 'package:e_commerce_flutter/src/view/screen/address_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/contact_screen.dart';
 import 'package:e_commerce_flutter/src/view/screen/home_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/login_screen.dart';
 import 'package:e_commerce_flutter/src/view/screen/product_list_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -101,7 +104,7 @@ class ProfileScreen extends StatelessWidget {
               }
             },
           ),
-          buildActionRow(context,Icons.location_on, 'Direcciones'),
+          buildActionRow(context,Icons.location_on, 'Dirección'),
           buildActionRow(context,Icons.phone_android, 'Contacto'),
           buildActionRow(context,Icons.shopping_bag, 'Mis compras'),
           buildActionRow(context,Icons.login, 'Salir de sesión'),
@@ -116,16 +119,16 @@ class ProfileScreen extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           switch (text) {
-            case 'Direcciones':
+            case 'Dirección':
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()), 
+                MaterialPageRoute(builder: (context) => const AddressScreen()), 
               );
               break;
             case 'Contacto':
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),  
+                MaterialPageRoute(builder: (context) => const ContactScreen()),  
               );
               break;
                 case 'Mis compras':
@@ -137,7 +140,7 @@ class ProfileScreen extends StatelessWidget {
                     default:
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),  
+                MaterialPageRoute(builder: (context) => const LoginScreen()),  
               );
               break;
           }
