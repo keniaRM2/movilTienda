@@ -155,7 +155,7 @@ class ProfileScreen extends StatelessWidget {
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             const Spacer(),
-            Icon(
+            const Icon(
               Icons.arrow_forward_ios,
               size: 40,
               color: AppColor.darkPurple,
