@@ -203,11 +203,11 @@ class AppData {
       false,
       FontAwesomeIcons.person,
     ),
-    // ProductCategory(
-    //   ProductType.pet,
-    //   false,
-    //   FontAwesomeIcons.dog,
-    // ),
+     ProductCategory(
+       ProductType.pet,
+       false,
+      FontAwesomeIcons.dog,
+    ),
   ];
 
   static List<Color> randomColors = [

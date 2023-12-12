@@ -21,6 +21,9 @@ class AuthController extends GetxController {
   Future<String> getFullNameUser() async {
     return myLocalStorage.getValue(MainConstants.nombreCompleto);
   }
+  Future<String> getfechaNacimiento() async {
+    return myLocalStorage.getValue(MainConstants.fechaNacimiento);
+  }
 
   Future<bool> isAuthenticated() async {
     String token = await myLocalStorage.getValue(MainConstants.token);
