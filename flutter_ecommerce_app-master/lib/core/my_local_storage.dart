@@ -1,29 +1,38 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyLocalStorage {
-  late SharedPreferences _prefs;
-
-  MyLocalStorage() {
-    _initPrefs(); 
-  }
-
-  Future<void> _initPrefs() async {
-    // _prefs = await SharedPreferences.getInstance();
-  }
-
   Future<void> setValue(String key, String value) async {
-    await _prefs.setString(key, value);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(key, value);
   }
 
   Future<String> getValue(String key) async {
-    return _prefs.getString(key) ?? '';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key) ?? '';
   }
 
   Future<void> removeValue(String key) async {
-    await _prefs.remove(key);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(key);
   }
 
   Future<void> clearAll() async {
-    await _prefs.clear();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+
+  Future<List<Map<String, String>>> getAllValues() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List<Map<String, String>> keyValueList = [];
+
+    Set<String> keys = prefs.getKeys();
+
+    for (String key in keys) {
+      String value = prefs.getString(key) ?? '';
+      keyValueList.add({'key': key, 'value': value});
+    }
+
+    return keyValueList;
   }
 }

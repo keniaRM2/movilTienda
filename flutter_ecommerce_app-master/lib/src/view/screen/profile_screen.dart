@@ -2,7 +2,8 @@ import 'package:e_commerce_flutter/core/app_color.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  // ignore: use_super_parameters
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

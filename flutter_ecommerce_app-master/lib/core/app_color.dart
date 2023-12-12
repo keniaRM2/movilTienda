@@ -12,7 +12,5 @@ class AppColor {
   static const white = Color.fromARGB(255, 255, 255, 255);
   static const darkGrey = Color(0xFFA6A3A0);
   static const lightGrey = Color(0xFFE5E6E8);
-
- 
-
+  static const redCockie = Color.fromARGB(255, 107, 0, 0);
 }

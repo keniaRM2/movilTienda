@@ -203,11 +203,11 @@ class AppData {
       false,
       FontAwesomeIcons.person,
     ),
-    ProductCategory(
-      ProductType.pet,
-      false,
-      FontAwesomeIcons.dog,
-    ),
+    // ProductCategory(
+    //   ProductType.pet,
+    //   false,
+    //   FontAwesomeIcons.dog,
+    // ),
   ];
 
   static List<Color> randomColors = [
@@ -243,6 +243,12 @@ class AppData {
     BottomNavyBarItem(
       "Perfil",
       const Icon(Icons.person),
+      const Color(0xFF9C27B0),
+      Colors.grey,
+    ),
+    BottomNavyBarItem(
+      "Login",
+      const Icon(Icons.login),
       const Color(0xFF9C27B0),
       Colors.grey,
     ),
