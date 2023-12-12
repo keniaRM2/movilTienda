@@ -33,72 +33,102 @@ class _LoginScreenState extends State<LoginScreen> {
           style: Theme.of(context).textTheme.displayLarge,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 200,
-              height: 200,
-              decoration: const BoxDecoration(),
-              child: Image.asset(
-                'assets/images/logo.png',
-                fit: BoxFit.contain,
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 250,
+                height: 250,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0XFFE6E6FA),
+                ),
+                child: ClipOval(
+                  child: Image.asset(
+                    scale: 5,
+                    'assets/images/logo.png',
+                    width: 250,
+                    height: 250,
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
               ),
-            ),
-            TextField(
-              onChanged: (value) {
-                setState(() {
-                  loginData.email = value;
-                });
-              },
-              decoration:
-                  const InputDecoration(labelText: 'Correo electrónico'),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              onChanged: (value) {
-                setState(() {
-                  loginData.password = value;
-                });
-              },
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Contraseña'),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                if (!controller.loading.value) {
-                  controller.loading.value = true;
+              const SizedBox(height: 16),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(children: [
+                    TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          loginData.email = value;
+                        });
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Correo electrónico',
+                        suffixIcon:
+                            Icon(Icons.alternate_email), // Icono de arroba (@)
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          loginData.password = value;
+                        });
+                      },
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Contraseña',
+                        suffixIcon: Icon(Icons
+                            .lock), // Puedes cambiar 'Icons.email' con el icono que desees
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color(0XFFE6E6FA)),
+                      ),
+                      onPressed: () {
+                        if (!controller.loading.value) {
+                          controller.loading.value = true;
 
-                  controller
-                      .login(loginData.email, loginData.password)
-                      .then((value) {
-                    controller.loading.value = false;
+                          controller
+                              .login(loginData.email, loginData.password)
+                              .then((value) {
+                            controller.loading.value = false;
 
-                    // UserData userData = UserData.fromJson(value);
+                            // UserData userData = UserData.fromJson(value);
 
-                    for (var entry in value.entries) {
-                      String key = entry.key;
-                      String value = entry.value.toString();
-                      myLocalStorage.setValue(key, value);
-                    }
+                            for (var entry in value.entries) {
+                              String key = entry.key;
+                              String value = entry.value.toString();
+                              myLocalStorage.setValue(key, value);
+                            }
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomeScreen()),
-                    );
-                    
-                  }).catchError((e) {
-                    controller.loading.value = false;
-                    myToast.showToastError(context, e.toString());
-                  });
-                }
-              },
-              child: const Text('Iniciar Sesión'),
-            ),
-          ],
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomeScreen()),
+                            );
+                          }).catchError((e) {
+                            controller.loading.value = false;
+                            myToast.showToastError(context, e.toString());
+                          });
+                        }
+                      },
+                      child: const Text('Iniciar Sesión'),
+                    ),
+                  ]),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
