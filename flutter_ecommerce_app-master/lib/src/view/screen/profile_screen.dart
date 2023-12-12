@@ -1,4 +1,7 @@
 import 'package:e_commerce_flutter/core/app_color.dart';
+import 'package:e_commerce_flutter/src/view/screen/address_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/contact_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/my_shopping_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -35,11 +38,11 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20.0,),
           Container(
-                height: 330.0,
+                height: 370.0,
                 width: 450,
                 decoration:  BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(30),),
-                child:  const Column(children: [
-                   Row(
+                child:  Column(children: [
+                   const Row(
                     children: [
                       Padding(
                         padding: EdgeInsets.all(10),
@@ -61,7 +64,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Row(
+                  const Row(
                     children: [
                       Padding(
                         padding: EdgeInsets.all(10),
@@ -83,7 +86,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Row(
+                  const Row(
                     children: [
                       Padding(
                         padding: EdgeInsets.all(10),
@@ -105,7 +108,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Row(
+                  const Row(
                     children: [
                       Padding(
                         padding: EdgeInsets.all(10),
@@ -132,25 +135,33 @@ class ProfileScreen extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.all(10),
                         child: Row(children: [
-                          Icon(
+                          const Icon(
                             Icons.location_on,
                             size: 30,
                             color: Colors.purple,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
-                          Text(
+                          const Text(
                             'Direcciones',
                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                           ),
-                          SizedBox(
-                            width: 240,
+                          const SizedBox(
+                            width: 200,
                           ),
-                          Icon(
-                            Icons.arrow_forward_ios,
+                          IconButton(
+                            onPressed:() {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              AddressScreen()),
+                                    );
+                                  },
+                            icon: const Icon(Icons.arrow_forward_ios,
                             size: 20,
-                            color: Colors.black,
+                            color: Colors.black,),
                           ),
                         ]),
                       ),
@@ -161,25 +172,33 @@ class ProfileScreen extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.all(10),
                         child: Row(children: [
-                          Icon(
+                          const Icon(
                             Icons.phone_android,
                             size: 30,
                             color: Colors.purple,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
-                          Text(
+                          const Text(
                             'Contacto',
                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                           ),
-                          SizedBox(
-                            width: 260,
+                          const SizedBox(
+                            width: 220,
                           ),
-                          Icon(
-                            Icons.arrow_forward_ios,
+                         IconButton(
+                            onPressed:() {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ContactScreen()),
+                                    );
+                                  },
+                            icon: const Icon(Icons.arrow_forward_ios,
                             size: 20,
-                            color: Colors.black,
+                            color: Colors.black,),
                           ),
                         ]),
                       ),
@@ -190,25 +209,33 @@ class ProfileScreen extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.all(10),
                         child: Row(children: [
-                          Icon(
+                          const Icon(
                             Icons.shopping_bag,
                             size: 30,
                             color: Colors.purple,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
-                          Text(
+                          const Text(
                             'Mis compras',
                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                           ),
-                          SizedBox(
-                            width: 230,
+                          const SizedBox(
+                            width: 190,
                           ),
-                          Icon(
-                            Icons.arrow_forward_ios,
+                          IconButton(
+                            onPressed:() {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              MyShoppingScreen()),
+                                    );
+                                  },
+                            icon: const Icon(Icons.arrow_forward_ios,
                             size: 20,
-                            color: Colors.black,
+                            color: Colors.black,),
                           ),
                         ]),
                       ),
