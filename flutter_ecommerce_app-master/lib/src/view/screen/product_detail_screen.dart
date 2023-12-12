@@ -213,13 +213,13 @@ class ProductDetailScreen extends StatelessWidget {
                       Text(product.about),
                       _detailsBar(context, product),
 
-                      const SizedBox(height: 30),
-                      Text(
-                        "Categoría",
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(product.about),
+                      // const SizedBox(height: 30),
+                      // Text(
+                      //   "Categoría",
+                      //   style: Theme.of(context).textTheme.headlineMedium,
+                      // ),
+                      // const SizedBox(height: 10),
+                      // Text(product.about),
 
                       // SizedBox(
                       //   height: 40,
