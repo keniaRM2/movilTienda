@@ -89,6 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       context,
                       MaterialPageRoute(builder: (context) => const HomeScreen()),
                     );
+                    
                   }).catchError((e) {
                     controller.loading.value = false;
                     myToast.showToastError(context, e.toString());
