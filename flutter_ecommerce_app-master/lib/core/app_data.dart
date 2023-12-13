@@ -1,10 +1,15 @@
+import 'package:e_commerce_flutter/core/main_constants.dart';
 import 'package:e_commerce_flutter/src/model/bottom_navy_bar_item.dart';
 import 'package:e_commerce_flutter/src/model/principal_categories.dart';
 import 'package:e_commerce_flutter/src/model/recommended_product.dart';
 import 'package:e_commerce_flutter/src/model/product_category.dart';
 import 'package:e_commerce_flutter/src/model/product.dart';
 import 'package:flutter/material.dart';
-
+import 'package:e_commerce_flutter/src/view/screen/cart_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/login_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/profile_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/categories_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/product_list_screen.dart';
 class AppData {
   const AppData._();
 
@@ -16,6 +21,14 @@ class AppData {
       true,
       Icons.all_inclusive,
     )
+  ];
+
+  static const List<Widget> screens = [
+    ProductListScreen(),
+    CategoriesScreen(),
+    CartScreen(),
+    ProfileScreen(),
+    LoginScreen()
   ];
 
   static List<Color> randomColors = [
@@ -31,34 +44,46 @@ class AppData {
 // iconos de navegador
   static List<BottomNavyBarItem> bottomNavyBarItems = [
     BottomNavyBarItem(
-      "Inicio",
+      MainConstants.home,
       const Icon(Icons.home),
       const Color(0xFF9C27B0),
       Colors.grey,
+      true,
+      const ProductListScreen(),
     ),
     BottomNavyBarItem(
-      "Categorias",
+      MainConstants.categories,
       const Icon(Icons.auto_awesome_mosaic_sharp),
       const Color(0xFF9C27B0),
       Colors.grey,
+      true,
+      const CategoriesScreen()
+
     ),
     BottomNavyBarItem(
-      "Carrito",
+      MainConstants.car,
       const Icon(Icons.shopping_cart),
       const Color(0xFF9C27B0),
       Colors.grey,
+      false,
+      const  CartScreen()
+
     ),
     BottomNavyBarItem(
-      "Perfil",
+      MainConstants.profile,
       const Icon(Icons.person),
       const Color(0xFF9C27B0),
       Colors.grey,
+      false,
+       const ProfileScreen(),
     ),
     BottomNavyBarItem(
-      "Login",
+      MainConstants.login,
       const Icon(Icons.login),
       const Color(0xFF9C27B0),
       Colors.grey,
+      true,
+      const LoginScreen()
     ),
   ];
 

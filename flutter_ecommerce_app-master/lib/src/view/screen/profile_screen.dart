@@ -1,9 +1,11 @@
 import 'package:e_commerce_flutter/core/app_color.dart';
+import 'package:e_commerce_flutter/core/app_data.dart';
+import 'package:e_commerce_flutter/core/main_constants.dart';
 import 'package:e_commerce_flutter/core/my_local_storage.dart';
 import 'package:e_commerce_flutter/core/my_toast.dart';
 import 'package:e_commerce_flutter/src/view/screen/address_screen.dart';
 import 'package:e_commerce_flutter/src/view/screen/contact_screen.dart';
-import 'package:e_commerce_flutter/src/view/screen/login_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/home_screen.dart';
 import 'package:e_commerce_flutter/src/controller/auth_controller.dart';
 import 'package:get/get.dart';
 
@@ -70,18 +72,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 myLocalStorage.clearAll().then((value) {
                   controller.loading.value = false;
 
+
+                List<String> screens = [
+                  MainConstants.home,
+                  MainConstants.categories,
+                  MainConstants.login
+                ]; 
+                  for (var i = 0; i < AppData .bottomNavyBarItems.length; i++) {
+                    if (screens.contains(AppData.bottomNavyBarItems[i].title)) {
+                      AppData.bottomNavyBarItems[i].visible = true;
+                    } else {
+                      AppData.bottomNavyBarItems[i].visible = false;
+                    }
+                  }
                   myToast.showToastSuccess(context, "¡Regresa pronto!");
+                  Navigator.of(context).pop();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const LoginScreen()),
+                    MaterialPageRoute(builder: (context) => const HomeScreen()),
                   );
                 }).catchError((e) {
                   controller.loading.value = false;
                   myToast.showToastError(context, e.toString());
                 });
               },
-              child: const Text('Sí, continuar'),
+              child: const Text('Sí, salir'),
             ),
           ],
         );
