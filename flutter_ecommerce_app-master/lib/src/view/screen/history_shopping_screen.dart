@@ -1,3 +1,4 @@
+import 'package:e_commerce_flutter/core/app_color.dart';
 import 'package:flutter/material.dart';
 
 class HistoryShoppingScreen extends StatelessWidget {
@@ -28,7 +29,7 @@ class HistoryShoppingScreen extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               final item = _feedItems[index];
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,10 +57,12 @@ class HistoryShoppingScreen extends StatelessWidget {
                               )),
                             ],
                           ),
+                          const SizedBox(height: 10),
                           Text(
                             " Talla:",
                             style: Theme.of(context).textTheme.displayLarge,
                           ),
+                          const SizedBox(height: 10),
                           Text(
                             " Color:",
                             style: Theme.of(context).textTheme.displayLarge,
@@ -75,6 +78,28 @@ class HistoryShoppingScreen extends StatelessWidget {
                                     image: NetworkImage(item.imageUrl!),
                                   )),
                             ),
+                          const SizedBox(height: 15),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                
+                              },
+                              icon: const Icon(
+                                Icons.upload, 
+                                size: 30,
+                                color:AppColor.white 
+                              ),
+                              label: const Text(
+                                "Subir archivo de pago",
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColor.white,
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
