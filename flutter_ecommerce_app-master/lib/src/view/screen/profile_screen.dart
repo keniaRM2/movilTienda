@@ -1,4 +1,6 @@
 import 'package:e_commerce_flutter/core/app_color.dart';
+import 'package:e_commerce_flutter/core/my_local_storage.dart';
+import 'package:e_commerce_flutter/core/my_toast.dart';
 import 'package:e_commerce_flutter/src/view/screen/address_screen.dart';
 import 'package:e_commerce_flutter/src/view/screen/contact_screen.dart';
 import 'package:e_commerce_flutter/src/view/screen/login_screen.dart';
@@ -9,8 +11,8 @@ import 'package:e_commerce_flutter/src/view/screen/shopping_screen.dart';
 import 'package:flutter/material.dart';
 
 final AuthController controller = Get.put(AuthController());
-
-
+final MyLocalStorage myLocalStorage = Get.put(MyLocalStorage());
+final MyToast myToast = Get.put(MyToast());
 
 class ProfileScreen extends StatefulWidget {
   // ignore: use_super_parameters
@@ -21,19 +23,18 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    // Llama a la función al cargar la pantalla por primera vez
+
     _updateScreen();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Llama a la función cada vez que cambian las dependencias
+
     _updateScreen();
   }
 
@@ -43,12 +44,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // await controller.getAllItems();
     // Actualiza la pantalla después de obtener los datos
     controller.loading.value = false;
-    if(mounted){
+    if (mounted) {
       setState(() {});
     }
   }
 
-   @override
+  Future<void> confirmLogout(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmación'),
+          content: const Text('¿Desea cerrar sesión?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                controller.loading.value = true;
+
+                myLocalStorage.clearAll().then((value) {
+                  controller.loading.value = false;
+
+                  myToast.showToastSuccess(context, "¡Regresa pronto!");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()),
+                  );
+                }).catchError((e) {
+                  controller.loading.value = false;
+                  myToast.showToastError(context, e.toString());
+                });
+              },
+              child: const Text('Sí, continuar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -88,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const Padding(
             padding: EdgeInsets.only(left: 5.0, top: 10),
             child: Text(
-              'araceli@gmail.com',
+              '',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
@@ -124,7 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               }
             },
           ),
-           FutureBuilder<String>(
+          FutureBuilder<String>(
             future: controller.getfechaNacimiento(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -137,20 +178,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 );
               } else {
                 String fechaNacimiento = snapshot.data ?? '';
-                return _buildProfileInfo('Fecha de Nacimiento:   ', fechaNacimiento);
+                return _buildProfileInfo(
+                    'Fecha de Nacimiento:   ', fechaNacimiento);
               }
             },
           ),
-          buildActionRow(context,Icons.location_on, 'Dirección'),
-          buildActionRow(context,Icons.phone_android, 'Contacto'),
-          buildActionRow(context,Icons.shopping_bag, 'Mis compras'),
-          buildActionRow(context,Icons.login, 'Salir de sesión'),
+          buildActionRow(context, Icons.location_on, 'Dirección'),
+          buildActionRow(context, Icons.phone_android, 'Contacto'),
+          buildActionRow(context, Icons.shopping_bag, 'Mis compras'),
+          buildActionRow(context, Icons.login, 'Salir de sesión'),
         ],
       ),
     );
   }
 
-  Widget buildActionRow(BuildContext context,IconData icon, String text) {
+  Widget buildActionRow(BuildContext context, IconData icon, String text) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: GestureDetector(
@@ -159,26 +201,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
             case 'Dirección':
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const AddressScreen()), 
+                MaterialPageRoute(builder: (context) => const AddressScreen()),
               );
               break;
             case 'Contacto':
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ContactScreen()),  
+                MaterialPageRoute(builder: (context) => const ContactScreen()),
               );
               break;
-                case 'Mis compras':
+            case 'Mis compras':
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ShoppingScreen()),  
+                MaterialPageRoute(builder: (context) => const ShoppingScreen()),
               );
               break;
-                    default:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),  
-              );
+            default:
+              confirmLogout(context);
+
               break;
           }
         },

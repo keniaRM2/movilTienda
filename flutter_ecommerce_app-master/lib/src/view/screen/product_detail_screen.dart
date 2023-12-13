@@ -201,7 +201,6 @@ class ProductDetailScreen extends StatelessWidget {
                       Text(
                         "Descripción",
                         style: Theme.of(context).textTheme.headlineMedium,
-                        
                       ),
                       const SizedBox(height: 10),
                       Text(product.about),
@@ -213,18 +212,28 @@ class ProductDetailScreen extends StatelessWidget {
                           onPressed: product.isAvailable
                               ? () {
                                   try {
-                                    
                                     controller.addToCart(product);
-                                    
-                                    myToast.showToastSuccess(context, "¡Producto agregado!");
-                                    
+
+                                    myToast.showToastSuccess(
+                                        context, "¡Producto agregado!");
+
                                     Navigator.pop(context);
                                   } catch (e) {
-                                    myToast.showToastError( context,e.toString());
+                                    myToast.showToastError(
+                                        context, e.toString());
                                   }
                                 }
                               : null,
-                          child: const Text("Agregar al carrito"),
+                          child: const Text(
+                            "Agregar al carrito",
+                            style: TextStyle(
+                              fontSize: 24, // Tamaño de fuente deseado
+                              fontWeight:
+                                  FontWeight.bold, 
+                                  color: AppColor.white// Peso de fuente deseado
+                              // Otros atributos de estilo según lo que necesites
+                            ),
+                          ),
                         ),
                       )
                     ],

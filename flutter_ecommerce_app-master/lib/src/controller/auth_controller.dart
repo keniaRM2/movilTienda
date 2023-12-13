@@ -1,5 +1,8 @@
 import 'package:e_commerce_flutter/core/main_constants.dart';
 import 'package:e_commerce_flutter/core/my_local_storage.dart';
+import 'package:e_commerce_flutter/src/model/contacto_dto.dart';
+import 'package:e_commerce_flutter/src/model/direccion_dto.dart';
+import 'package:e_commerce_flutter/src/model/persona_dto.dart';
 import 'package:e_commerce_flutter/src/services/auth_service.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -16,6 +19,16 @@ class AuthController extends GetxController {
       'contrasena': contrasena
     };
     return await authService.login(parameters);
+  }
+
+  Future<dynamic> actualizarPersona( PersonaDTO personaDTO) async {
+    return await authService.actualizarPersona(personaDTO.toJson());
+  }
+   Future<dynamic> actualizarDireccion( DireccionDTO direccionDTO ) async {
+    return await authService.actualizarDireccion(direccionDTO.toJson());
+  }
+   Future<dynamic> actualizarContacto( ContactoDTO contactoDTO) async {
+    return await authService.actualizarContacto(contactoDTO.toJson());
   }
 
   Future<dynamic> obtenerUsuarioSecion() async {

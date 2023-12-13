@@ -1,5 +1,5 @@
 import 'package:e_commerce_flutter/core/app_color.dart';
-import 'package:e_commerce_flutter/src/view/screen/home_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/history_shopping_screen.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingScreen extends StatelessWidget {
@@ -46,7 +46,7 @@ class ShoppingScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                        const HomeScreen()),
+                        const HistoryShoppingScreen()),
                 );
               },
               child: ListTile(
@@ -94,7 +94,7 @@ class ShoppingScreen extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const HomeScreen()), // Reemplaza 'OtraPantalla()' con el nombre de tu pantalla de destino
+                                      const HistoryShoppingScreen()), // Reemplaza 'OtraPantalla()' con el nombre de tu pantalla de destino
                             );
                           },
                           child: const Icon(
