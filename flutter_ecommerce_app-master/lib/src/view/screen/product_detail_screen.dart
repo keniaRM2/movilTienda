@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_flutter/core/app_color.dart';
 import 'package:e_commerce_flutter/src/model/product.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:e_commerce_flutter/src/view/widget/page_wrapper.dart';
 import 'package:e_commerce_flutter/src/view/widget/carousel_slider.dart';
 import 'package:e_commerce_flutter/src/controller/product_controller.dart';
@@ -46,12 +45,6 @@ class ProductDetailScreen extends StatelessWidget {
       spacing: 30,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        RatingBar.builder(
-          initialRating: product.rating,
-          direction: Axis.horizontal,
-          itemBuilder: (_, __) => const Icon(Icons.star, color: Colors.amber),
-          onRatingUpdate: (_) {},
-        ),
         Text(
           '${product.existence} disponibles',
           style: Theme.of(context)
@@ -212,21 +205,6 @@ class ProductDetailScreen extends StatelessWidget {
                       const SizedBox(height: 10),
                       Text(product.about),
                       _detailsBar(context, product),
-
-                      // const SizedBox(height: 30),
-                      // Text(
-                      //   "Categoría",
-                      //   style: Theme.of(context).textTheme.headlineMedium,
-                      // ),
-                      // const SizedBox(height: 10),
-                      // Text(product.about),
-
-                      // SizedBox(
-                      //   height: 40,
-                      //   child: GetBuilder<ProductController>(
-                      //     builder: (_) => productSizesListView(),
-                      //   ),
-                      // ),
                       const SizedBox(height: 20),
                       SizedBox(
                         width: double.infinity,
@@ -234,18 +212,28 @@ class ProductDetailScreen extends StatelessWidget {
                           onPressed: product.isAvailable
                               ? () {
                                   try {
-                                    
                                     controller.addToCart(product);
-                                    
-                                    myToast.showToastSuccess(context, "¡Producto agregado!");
-                                    
+
+                                    myToast.showToastSuccess(
+                                        context, "¡Producto agregado!");
+
                                     Navigator.pop(context);
                                   } catch (e) {
-                                    myToast.showToastError( context,e.toString());
+                                    myToast.showToastError(
+                                        context, e.toString());
                                   }
                                 }
                               : null,
-                          child: const Text("Agregar al carrito"),
+                          child: const Text(
+                            "Agregar al carrito",
+                            style: TextStyle(
+                              fontSize: 24, // Tamaño de fuente deseado
+                              fontWeight:
+                                  FontWeight.bold, 
+                                  color: AppColor.white// Peso de fuente deseado
+                              // Otros atributos de estilo según lo que necesites
+                            ),
+                          ),
                         ),
                       )
                     ],

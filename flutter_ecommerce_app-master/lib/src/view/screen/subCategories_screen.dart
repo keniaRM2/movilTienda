@@ -1,16 +1,16 @@
 import 'package:e_commerce_flutter/core/app_color.dart';
 import 'package:e_commerce_flutter/core/app_data.dart';
-import 'package:e_commerce_flutter/src/view/screen/subCategories_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/product_filter_screen.dart';
 import 'package:flutter/material.dart';
 
-class CategoriesScreen extends StatelessWidget {
+class SubcategoriesScreen extends StatelessWidget {
   // ignore: use_key_in_widget_constructors
-  const CategoriesScreen({Key? key});
+  const SubcategoriesScreen({Key? key});
 
   PreferredSizeWidget _appBar(BuildContext context) {
     return AppBar(
       title: Text(
-        "Categorías",
+        "SubCategorias",
         style: Theme.of(context).textTheme.displayLarge,
       ),
     );
@@ -33,7 +33,7 @@ Widget build(BuildContext context) {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const SubcategoriesScreen(), // Reemplaza 'PantallaDestino()' con el nombre de tu pantalla de destino
+                builder: (context) => const ProductFilterScreen(), // Reemplaza 'PantallaDestino()' con el nombre de tu pantalla de destino
               ),
             );
           },

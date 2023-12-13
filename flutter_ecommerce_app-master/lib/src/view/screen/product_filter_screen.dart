@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:e_commerce_flutter/src/view/screen/cart_screen.dart';
 import 'package:e_commerce_flutter/src/view/screen/categories_screen.dart';
-import 'package:e_commerce_flutter/src/view/widget/logo_empresa.dart';
 import 'package:e_commerce_flutter/core/app_data.dart';
-import 'package:e_commerce_flutter/core/app_color.dart';
 import 'package:e_commerce_flutter/src/controller/product_controller.dart';
 import 'package:e_commerce_flutter/src/controller/auth_controller.dart';
 import 'package:e_commerce_flutter/src/view/widget/product_grid_view.dart';
@@ -15,27 +12,27 @@ final AuthController authController = Get.put(AuthController());
 
 enum AppbarActionType { leading, trailing }
 
-class ProductListScreen extends StatefulWidget {
+class ProductFilterScreen extends StatefulWidget {
   // ignore: use_super_parameters
-  const ProductListScreen({Key? key}) : super(key: key);
+  const ProductFilterScreen({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
   _ProductListScreenState createState() => _ProductListScreenState();
 }
 
-class _ProductListScreenState extends State<ProductListScreen> {
+class _ProductListScreenState extends State<ProductFilterScreen> {
   @override
   void initState() {
     super.initState();
-
+    // Llama a la función al cargar la pantalla por primera vez
     _updateScreen();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
+    // Llama a la función cada vez que cambian las dependencias
     _updateScreen();
   }
 
@@ -45,7 +42,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
     await controller.getAllItems();
     // Actualiza la pantalla después de obtener los datos
     controller.loading.value = false;
-    if (mounted) {
+    if(mounted){
       setState(() {});
     }
   }
@@ -61,22 +58,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Tejiendo Estilo Con Encanto ",
-                style: Theme.of(context).textTheme.displayLarge,
-              ),
-              Text(
-                "Contamos con variedad de diseños",
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              _recommendedProductListView(context),
-              // _topCategoriesHeader(context),
-              // _topCategoriesListView(),
-              const SizedBox(height: 20),
-              Text(
-                "Lo más reciente ",
-                style: Theme.of(context).textTheme.displayLarge,
-              ),
+              
               GetBuilder(builder: (ProductController controller) {
                 if (controller.loading.value) {
                   return const Center(
@@ -97,87 +79,16 @@ class _ProductListScreenState extends State<ProductListScreen> {
     );
   }
 
-  PreferredSize _getAppBar(BuildContext context) {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(100),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: FutureBuilder<String>(
-            future: authController.getFullNameUser(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                // Mientras está en espera, puedes mostrar un indicador de carga
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                // En caso de error, puedes manejar el error adecuadamente
-                return Text('Error: ${snapshot.error}');
-              } else {
-                String fullNameUser = snapshot.data ?? '';
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const EmpresaLogoWidget(),
-                    Text(fullNameUser),
-                    if (fullNameUser != '')
-                      _appBarActionButton(AppbarActionType.leading, context),
-
-                    // _appBarActionButton(AppbarActionType.trailing, context),
-                  ],
-                );
-              }
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _appBarActionButton(AppbarActionType type, BuildContext context) {
-    IconData icon = Icons.shopping_cart;
-
-    return Stack(
-  children: [
-    Container(
-      margin: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: AppColor.darkPurple,
-      ),
-      child: IconButton(
-        padding: const EdgeInsets.all(8),
-        constraints: const BoxConstraints(),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const CartScreen()),
-          );
-        },
-        icon: Icon(icon, color: AppColor.white),
-      ),
+ PreferredSizeWidget _getAppBar(BuildContext context) {
+  return AppBar(
+    title: Text(
+      "Productos",
+      style: Theme.of(context).textTheme.displayLarge,
     ),
-    Positioned(
-      top: 0,
-      right: 0,
-      child: Container(
-        padding: const EdgeInsets.all(4),
-        decoration: const BoxDecoration(
-          color: Colors.red,
-          shape: BoxShape.circle,
-        ),
-        child: const Text(
-          '10', // Aquí deberías colocar la cantidad de productos
-          style:  TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    ),
-  ],
-);
+  );
+}
 
-  }
+
 
   Widget _recommendedProductListView(BuildContext context) {
     return SizedBox(
@@ -256,27 +167,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
     );
   }
 
-  // ignore: unused_element
-  Widget _topCategoriesHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Principales Categorias",
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-        ],
-      ),
-    );
-  }
 
   Widget _topCategoriesListView() {
     return ListItemSelector(

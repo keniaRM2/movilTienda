@@ -144,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const Padding(
             padding: EdgeInsets.only(left: 5.0, top: 10),
             child: Text(
-              'araceli@gmail.com',
+              '',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
