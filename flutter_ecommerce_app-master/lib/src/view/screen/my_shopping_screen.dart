@@ -29,10 +29,8 @@ class MyShoppingScreen extends StatelessWidget{
     return Scaffold(
         appBar: AppBar(
             title: const Text('Mis compras', style: TextStyle( fontSize: 16)),
-             backgroundColor: AppColor.lightPurple),
+            backgroundColor: AppColor.lightPurple),
         body:
-           
-
             ListView.builder(
               itemCount: shoppingHistory.length,
               itemBuilder: (context, index) {

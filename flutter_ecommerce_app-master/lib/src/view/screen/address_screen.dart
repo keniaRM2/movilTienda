@@ -85,7 +85,7 @@ class _AddressScreenState extends State<AddressScreen> {
             children: [
               Card(
                 margin: const EdgeInsets.all(16),
-                color: Colors.white,
+                color: const Color.fromARGB(255, 255, 255, 255),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -224,7 +224,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(300, 50),
-                                backgroundColor: AppColor.lightPurple),
+                                backgroundColor: AppColor.lightYellow),
                             onPressed: () {
                               //  Navigator.push(  context,MaterialPageRoute(  builder: (context) =>LoginScreen());                                           ),
                             },

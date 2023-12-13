@@ -92,7 +92,7 @@ class _ContactScreenState extends State<ContactScreen> {
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(300, 50),
-                                backgroundColor: AppColor.lightPurple),
+                                backgroundColor: AppColor.lightYellow),
                             onPressed:() {
                                   Navigator.push(
                                       context,

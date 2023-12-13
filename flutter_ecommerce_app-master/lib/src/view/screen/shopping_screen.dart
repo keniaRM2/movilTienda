@@ -1,4 +1,5 @@
 import 'package:e_commerce_flutter/core/app_color.dart';
+import 'package:e_commerce_flutter/src/view/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingScreen extends StatelessWidget {
@@ -36,58 +37,80 @@ class ShoppingScreen extends StatelessWidget {
           ];
         },
         body: ListView.builder(
-  itemCount: 5,
-  itemBuilder: (BuildContext context, int index) {
-    return ListTile(
-      title: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Fecha: $index",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-                  Text(
-                  "Total: $index",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-                const SizedBox(height: 8),
-              ],
-            ),
-          ),
-          const Row(
-            children: [
-              Text(
-                "Status: ",
-                style: TextStyle(
-                  color: AppColor.darkPurple,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
+          itemCount: 5,
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              onTap: () {
+              
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                        const HomeScreen()),
+                );
+              },
+              child: ListTile(
+                title: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Fecha: $index",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          Text(
+                            "Total: $index",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        const Text(
+                          "Status: ",
+                          style: TextStyle(
+                            color: AppColor.darkPurple,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        const SizedBox(
+                            width: 8), // Espacio entre el texto y el icono
+                        GestureDetector(
+                          onTap: () {
+                            // Lógica para la navegación al otro screen cuando se toca el icono
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const HomeScreen()), // Reemplaza 'OtraPantalla()' con el nombre de tu pantalla de destino
+                            );
+                          },
+                          child: const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 40,
+                            color: AppColor.darkPurple,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(width: 8), // Espacio entre el texto y el icono
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 40,
-                color: AppColor.darkPurple,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  },
-),
-
+            );
+          },
+        ),
       ),
     );
   }
