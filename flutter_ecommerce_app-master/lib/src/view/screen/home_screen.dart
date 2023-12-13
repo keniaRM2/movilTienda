@@ -1,24 +1,12 @@
-import 'package:e_commerce_flutter/src/view/screen/categories_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/product_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:e_commerce_flutter/core/app_data.dart';
-import 'package:e_commerce_flutter/src/view/screen/cart_screen.dart';
 import 'package:e_commerce_flutter/src/view/widget/page_wrapper.dart';
-import 'package:e_commerce_flutter/src/view/screen/profile_screen.dart';
-import 'package:e_commerce_flutter/src/view/screen/login_screen.dart';
-import 'package:e_commerce_flutter/src/view/screen/product_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
-  static const List<Widget> screens = [
-    ProductListScreen(),
-    CategoriesScreen(),
-    CartScreen(),
-    ProfileScreen(),
-    LoginScreen()
-  ];
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -26,6 +14,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int newIndex = 0;
+
+  List<Widget> screens = [const ProductListScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
           itemCornerRadius: 10,
           selectedIndex: newIndex,
           items: AppData.bottomNavyBarItems
+              .where((item) => item.visible == true)
               .map(
                 (item) => BottomNavyBarItem(
                   icon: item.icon,
@@ -46,6 +37,16 @@ class _HomeScreenState extends State<HomeScreen> {
               .toList(),
           onItemSelected: (currentIndex) {
             newIndex = currentIndex;
+            screens = [
+               AppData.bottomNavyBarItems
+              .where((item) => item.visible == true).toList()[newIndex].widget
+            ];
+            // for (var i = 0; i < AppData.bottomNavyBarItems.length; i++) {
+            //   if (AppData.bottomNavyBarItems[i].visible == true) {
+            //     screens = [AppData.bottomNavyBarItems[newIndex].widget];
+            //     break;
+            //   }
+            // }
             setState(() {});
           },
         ),
@@ -62,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: child,
             );
           },
-          child: HomeScreen.screens[newIndex],
+          child: screens[0],
         ),
       ),
     );

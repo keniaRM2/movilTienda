@@ -28,14 +28,14 @@ class _ProductListScreenState extends State<ProductListScreen> {
   @override
   void initState() {
     super.initState();
-   
+
     _updateScreen();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    
+
     _updateScreen();
   }
 
@@ -45,7 +45,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
     await controller.getAllItems();
     // Actualiza la pantalla después de obtener los datos
     controller.loading.value = false;
-    if(mounted){
+    if (mounted) {
       setState(() {});
     }
   }
@@ -97,39 +97,41 @@ class _ProductListScreenState extends State<ProductListScreen> {
     );
   }
 
- PreferredSize _getAppBar(BuildContext context) {
-  return PreferredSize(
-    preferredSize: const Size.fromHeight(100),
-    child: SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: FutureBuilder<String>(
-          future: authController.getFullNameUser(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              // Mientras está en espera, puedes mostrar un indicador de carga
-              return const CircularProgressIndicator();
-            } else if (snapshot.hasError) {
-              // En caso de error, puedes manejar el error adecuadamente
-              return Text('Error: ${snapshot.error}');
-            } else {
-              String fullNameUser = snapshot.data ?? '';
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const EmpresaLogoWidget(),
-                  Text(fullNameUser),
-                  _appBarActionButton(AppbarActionType.trailing, context),
-                ],
-              );
-            }
-          },
+  PreferredSize _getAppBar(BuildContext context) {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(100),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          child: FutureBuilder<String>(
+            future: authController.getFullNameUser(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // Mientras está en espera, puedes mostrar un indicador de carga
+                return const CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                // En caso de error, puedes manejar el error adecuadamente
+                return Text('Error: ${snapshot.error}');
+              } else {
+                String fullNameUser = snapshot.data ?? '';
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const EmpresaLogoWidget(),
+                    Text(fullNameUser),
+                    if (fullNameUser != '')
+                      _appBarActionButton(AppbarActionType.leading, context),
+
+                    // _appBarActionButton(AppbarActionType.trailing, context),
+                  ],
+                );
+              }
+            },
+          ),
         ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 
   Widget _appBarActionButton(AppbarActionType type, BuildContext context) {
     IconData icon = Icons.shopping_cart;

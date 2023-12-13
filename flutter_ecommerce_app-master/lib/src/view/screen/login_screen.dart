@@ -1,4 +1,6 @@
 // import 'package:e_commerce_flutter/core/main_constants.dart';
+import 'package:e_commerce_flutter/core/app_data.dart';
+import 'package:e_commerce_flutter/core/main_constants.dart';
 import 'package:e_commerce_flutter/core/my_local_storage.dart';
 import 'package:e_commerce_flutter/src/model/login_data.dart';
 import 'package:e_commerce_flutter/src/view/screen/home_screen.dart';
@@ -103,12 +105,21 @@ class _LoginScreenState extends State<LoginScreen> {
                               .then((value) {
                             controller.loading.value = false;
 
-                            // UserData userData = UserData.fromJson(value);
-
                             for (var entry in value.entries) {
                               String key = entry.key;
                               String value = entry.value.toString();
                               myLocalStorage.setValue(key, value);
+                            }
+
+                            for (var i = 0;
+                                i < AppData.bottomNavyBarItems.length;
+                                i++) {
+                              if (AppData.bottomNavyBarItems[i].title !=
+                                  MainConstants.login) {
+                                AppData.bottomNavyBarItems[i].visible = true;
+                              }else{
+                                 AppData.bottomNavyBarItems[i].visible = false;
+                              }
                             }
 
                             Navigator.push(
