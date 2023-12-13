@@ -1,6 +1,7 @@
 // import 'package:e_commerce_flutter/core/main_constants.dart';
 import 'package:e_commerce_flutter/core/my_local_storage.dart';
 import 'package:e_commerce_flutter/src/model/login_data.dart';
+import 'package:e_commerce_flutter/src/view/screen/create_acount.dart';
 import 'package:e_commerce_flutter/src/view/screen/home_screen.dart';
 // import 'package:e_commerce_flutter/src/model/user_data.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,37 @@ class _LoginScreenState extends State<LoginScreen> {
                 fit: BoxFit.contain,
               ),
             ),
+            Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>  CreateAccount()),
+                    );
+                  },
+                  child: RichText(
+                    text: const TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '¿No tienes cuenta?',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' Crear una cuenta',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
             TextField(
               onChanged: (value) {
                 setState(() {
@@ -87,9 +119,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const HomeScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const HomeScreen()),
                     );
-                    
                   }).catchError((e) {
                     controller.loading.value = false;
                     myToast.showToastError(context, e.toString());
