@@ -1,3 +1,5 @@
+import 'package:e_commerce_flutter/core/my_toast.dart';
+import 'package:e_commerce_flutter/src/view/screen/address_screen.dart';
 import 'package:e_commerce_flutter/src/view/screen/cart_screen.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:e_commerce_flutter/src/view/widget/carousel_slider.dart';
 import 'package:e_commerce_flutter/src/controller/product_controller.dart';
 
 final ProductController controller = Get.put(ProductController());
+final MyToast myToast = Get.put(MyToast());
 
 class ProductDetailScreen extends StatelessWidget {
   final Product product;
@@ -208,32 +211,49 @@ class ProductDetailScreen extends StatelessWidget {
                       const SizedBox(height: 20),
                       SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: product.isAvailable
-                              ? () {
-                                  try {
-                                    controller.addToCart(product);
-
-                                    myToast.showToastSuccess(
-                                        context, "¡Producto agregado!");
-
-                                    Navigator.pop(context);
-                                  } catch (e) {
-                                    myToast.showToastError(
-                                        context, e.toString());
-                                  }
-                                }
-                              : null,
-                          child: const Text(
-                            "Agregar al carrito",
-                            style: TextStyle(
-                              fontSize: 24, // Tamaño de fuente deseado
-                              fontWeight:
-                                  FontWeight.bold, 
-                                  color: AppColor.white// Peso de fuente deseado
-                              // Otros atributos de estilo según lo que necesites
-                            ),
-                          ),
+                        child: FutureBuilder<bool>(
+                          future: authController.isAuthenticated(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<bool> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              // Mientras está esperando, puedes mostrar un indicador de carga u otra cosa.
+                              return const CircularProgressIndicator();
+                            } else {
+                              if (snapshot.hasError) {
+                                // Si hay un error, puedes manejarlo aquí
+                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                // Si la operación fue exitosa, puedes mostrar el botón si el usuario está autenticado.
+                                return snapshot.data == true
+                                    ? ElevatedButton(
+                                        onPressed: product.isAvailable
+                                            ? () {
+                                                try {
+                                                  controller.addToCart(product);
+                                                  myToast.showToastSuccess(
+                                                      context,
+                                                      "¡Producto agregado!");
+                                                  Navigator.pop(context);
+                                                } catch (e) {
+                                                  myToast.showToastError(
+                                                      context, e.toString());
+                                                }
+                                              }
+                                            : null,
+                                        child: const Text(
+                                          "Agregar al carrito",
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColor.white,
+                                          ),
+                                        ),
+                                      )
+                                    : const SizedBox(); // Si no está autenticado, no muestra nada (o puedes mostrar un widget diferente).
+                              }
+                            }
+                          },
                         ),
                       )
                     ],
