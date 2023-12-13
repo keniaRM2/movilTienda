@@ -21,6 +21,9 @@ class APIConstants {
   static const String usuarioRegistrar = '${ApiConfig.baseUrl}usuario/registrar';
   static const String usuarioObtener = '${ApiConfig.baseUrl}usuario/obtener';
   static const String usuarioActualizar = '${ApiConfig.baseUrl}usuario/actualizar';
+  static const String actualizarPersona = '${ApiConfig.baseUrl}usuario/actualizarPersona';
+  static const String actualizarDireccion = '${ApiConfig.baseUrl}usuario/actualizarDireccion';
+  static const String actualizarContacto = '${ApiConfig.baseUrl}usuario/actualizarContacto';
 
   static const String generoListar = '${ApiConfig.baseUrl}genero';
   static const String generoObtener = '${ApiConfig.baseUrl}genero/obtener';

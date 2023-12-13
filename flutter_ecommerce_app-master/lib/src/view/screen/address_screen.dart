@@ -1,10 +1,12 @@
 import 'package:e_commerce_flutter/core/app_color.dart';
+import 'package:e_commerce_flutter/core/my_toast.dart';
 import 'package:e_commerce_flutter/src/model/direccion_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_flutter/src/controller/auth_controller.dart';
 import 'package:get/get.dart';
 
 final AuthController authController = Get.put(AuthController());
+final MyToast myToast = MyToast();
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({super.key});
@@ -14,63 +16,81 @@ class AddressScreen extends StatefulWidget {
 }
 
 class _AddressScreenState extends State<AddressScreen> {
-  final DireccionDTO direccionDTO = DireccionDTO();
+  DireccionDTO direccionDTO = DireccionDTO();
 
   @override
   void initState() {
     super.initState();
-    // Llama a la función al cargar la pantalla por primera vez
+   
     _updateScreen();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Llama a la función cada vez que cambian las dependencias
+    
     _updateScreen();
   }
 
   void _updateScreen() {
     authController.loading.value = true;
 
-    if (!authController.loading.value) {
+
+    // if (!authController.loading.value) {
       authController.loading.value = true;
 
-      // authController.obtenerUsuarioSecion().then((value) {
-      //   authController.loading.value = false;
+      authController.obtenerUsuarioSecion().then((value) {
+        authController.loading.value = false;
 
-      // if(value['direccion'] != null){
+        direccionDTO = DireccionDTO.fromJson(value);
 
-      // }
+        _federalEntity.text = direccionDTO.entidadFederativa ?? '';
+        _municipality.text = direccionDTO.municipio ?? '';
+        _colony.text = direccionDTO.colonia ?? '';
+        _outdoorNumber.text = direccionDTO.numeroExterior ?? '';
+        _interiorNumber.text = direccionDTO.numeroInterior ?? '';
+        _street.text = direccionDTO.calle ?? '';
+      }).catchError((e) {
 
-      //   DireccionDTO userData = UserData.fromJson(value);
-
-      //   for (var entry in value.entries) {
-      //     String key = entry.key;
-      //     String value = entry.value.toString();
-      //     myLocalStorage.setValue(key, value);
-      //   }
-
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => const HomeScreen()),
-      //   );
-      // }).catchError((e) {
-      //   authController.loading.value = false;
-      //   myToast.showToastError(context, e.toString());
-      // });
-    }
+        authController.loading.value = false;
+        myToast.showToastError(context, e.toString());
+      });
+    // }
     if (mounted) {
       setState(() {});
     }
   }
 
+  void _saveAddress(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+
+      // if (!authController.loading.value) {
+        authController.loading.value = true;
+
+        authController.actualizarDireccion(direccionDTO).then((value) {
+          authController.loading.value = false;
+          myToast.showToastSuccess(context, 'Dirección guardada correctamente');
+          Navigator.pop(context);
+        }).catchError((e) {
+          authController.loading.value = false;
+          myToast.showToastError(context, e.toString());
+        });
+      // }
+      if (mounted) {
+        setState(() {});
+      }
+    }
+  }
+
   final _formKey = GlobalKey<FormState>();
+
+  // final TextEditingController _postalCode = TextEditingController(text: '');
+
+  final TextEditingController _federalEntity = TextEditingController(text: '');
   final TextEditingController _municipality = TextEditingController(text: '');
-  final TextEditingController _postalCode = TextEditingController(text: '');
   final TextEditingController _outdoorNumber = TextEditingController(text: '');
   final TextEditingController _interiorNumber = TextEditingController(text: '');
-  final TextEditingController _suburb = TextEditingController(text: '');
+  final TextEditingController _colony = TextEditingController(text: '');
   final TextEditingController _street = TextEditingController(text: '');
 
   @override
@@ -110,7 +130,12 @@ class _AddressScreenState extends State<AddressScreen> {
                             }
                           },
                           keyboardType: TextInputType.emailAddress,
-                          controller: _municipality,
+                          controller: _federalEntity,
+                          onChanged: (value) {
+                            setState(() {
+                              direccionDTO.entidadFederativa = value;
+                            });
+                          },
                         ),
                       ),
                       Padding(
@@ -127,6 +152,11 @@ class _AddressScreenState extends State<AddressScreen> {
                           },
                           keyboardType: TextInputType.emailAddress,
                           controller: _municipality,
+                          onChanged: (value) {
+                            setState(() {
+                              direccionDTO.municipio = value;
+                            });
+                          },
                         ),
                       ),
                       Padding(
@@ -142,25 +172,35 @@ class _AddressScreenState extends State<AddressScreen> {
                             }
                           },
                           keyboardType: TextInputType.text,
-                          controller: _suburb,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                              labelText: 'Código Postal:'),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Campo obligario';
-                            } else {
-                              return null;
-                            }
+                          controller: _colony,
+                          onChanged: (value) {
+                            setState(() {
+                              direccionDTO.colonia = value;
+                            });
                           },
-                          keyboardType: TextInputType.number,
-                          controller: _postalCode,
                         ),
                       ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(16.0),
+                      //   child: TextFormField(
+                      //     decoration: const InputDecoration(
+                      //         labelText: 'Código Postal:'),
+                      //     validator: (value) {
+                      //       if (value == null || value.isEmpty) {
+                      //         return 'Campo obligario';
+                      //       } else {
+                      //         return null;
+                      //       }
+                      //     },
+                      //     keyboardType: TextInputType.number,
+                      //     controller: _postalCode,
+                      //     onChanged: (value) {
+                      //       setState(() {
+                      //         direccionDTO.codigo= value;
+                      //       });
+                      //     },
+                      //   ),
+                      // ),
                       Row(
                         children: [
                           Expanded(
@@ -179,6 +219,11 @@ class _AddressScreenState extends State<AddressScreen> {
                                 },
                                 keyboardType: TextInputType.number,
                                 controller: _outdoorNumber,
+                                onChanged: (value) {
+                                  setState(() {
+                                    direccionDTO.numeroExterior = value;
+                                  });
+                                },
                               ),
                             ),
                           ),
@@ -187,18 +232,24 @@ class _AddressScreenState extends State<AddressScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                  decoration: const InputDecoration(
-                                    labelText: 'Número Interior',
-                                  ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Campo obligatorio';
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  keyboardType: TextInputType.number,
-                                  controller: _interiorNumber),
+                                decoration: const InputDecoration(
+                                  labelText: 'Número Interior',
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Campo obligatorio';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                keyboardType: TextInputType.number,
+                                controller: _interiorNumber,
+                                onChanged: (value) {
+                                  setState(() {
+                                    direccionDTO.numeroInterior = value;
+                                  });
+                                },
+                              ),
                             ),
                           ),
                         ],
@@ -217,6 +268,11 @@ class _AddressScreenState extends State<AddressScreen> {
                           },
                           keyboardType: TextInputType.text,
                           controller: _street,
+                          onChanged: (value) {
+                            setState(() {
+                              direccionDTO.calle = value;
+                            });
+                          },
                         ),
                       ),
                       Padding(
@@ -226,6 +282,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                 minimumSize: const Size(300, 50),
                                 backgroundColor: AppColor.lightPurple),
                             onPressed: () {
+                              _saveAddress(context);
                               //  Navigator.push(  context,MaterialPageRoute(  builder: (context) =>LoginScreen());                                           ),
                             },
                             child: const Text('Guardar')),

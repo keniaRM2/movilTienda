@@ -28,14 +28,14 @@ class _ProductListScreenState extends State<ProductListScreen> {
   @override
   void initState() {
     super.initState();
-    // Llama a la función al cargar la pantalla por primera vez
+   
     _updateScreen();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Llama a la función cada vez que cambian las dependencias
+    
     _updateScreen();
   }
 
@@ -231,6 +231,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
     );
   }
 
+  // ignore: unused_element
   Widget _topCategoriesHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
