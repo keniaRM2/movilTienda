@@ -241,7 +241,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Categorias",
+                "Principales Categorias",
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ],

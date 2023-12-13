@@ -10,5 +10,4 @@ class LoginService extends MainService {
     http.Response response = await postRequest(APIConstants.login, parameters);
     return json.decode(response.body);
   }
-  
 }

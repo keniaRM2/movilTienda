@@ -1,7 +1,9 @@
 import 'package:e_commerce_flutter/core/app_color.dart';
 import 'package:e_commerce_flutter/src/view/screen/address_screen.dart';
 import 'package:e_commerce_flutter/src/view/screen/contact_screen.dart';
-import 'package:e_commerce_flutter/src/view/screen/my_shopping_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/home_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/login_screen.dart';
+import 'package:e_commerce_flutter/src/view/screen/product_list_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -14,250 +16,154 @@ class ProfileScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-       appBar: _appBar(context),
-      body:SingleChildScrollView(
-        child: Column(children: [
-          Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 28.0),
-                      child: CircleAvatar(
-                        child:Image.asset("assets/images/avatar.png"),
-                        backgroundColor: Colors.grey,
-                        radius: 60.0,
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 5.0, top: 10),
-                      child: Text(
-                        'araceli@gmail.com',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20.0,),
-          Container(
-                height: 370.0,
-                width: 450,
-                decoration:  BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(30),),
-                child:  Column(children: [
-                   const Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: 
-                          Text(
-                            'Nombre',
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                      
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: 
-                          Text(
-                            'Araceli',
-                             style: TextStyle(fontSize: 16),
-                          ),
-                      
-                      ),
-                    ],
-                  ),
-                  const Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: 
-                          Text(
-                            'Apellidos',
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                      
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: 
-                          Text(
-                            'Garcia Diaz',
-                             style: TextStyle(fontSize: 16),
-                          ),
-                      
-                      ),
-                    ],
-                  ),
-                  const Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: 
-                          Text(
-                            'Fecha de Nacimiento',
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                      
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: 
-                          Text(
-                            '01-10-2002',
-                           style: TextStyle(fontSize: 16),
-                          ),
-                      
-                      ),
-                    ],
-                  ),
-                  const Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: 
-                          Text(
-                            'Género',
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                      
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: 
-                          Text(
-                            'Femenino',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                      
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Row(children: [
-                          const Icon(
-                            Icons.location_on,
-                            size: 30,
-                            color: Colors.purple,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text(
-                            'Direcciones',
-                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          const SizedBox(
-                            width: 200,
-                          ),
-                          IconButton(
-                            onPressed:() {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              AddressScreen()),
-                                    );
-                                  },
-                            icon: const Icon(Icons.arrow_forward_ios,
-                            size: 20,
-                            color: Colors.black,),
-                          ),
-                        ]),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Row(children: [
-                          const Icon(
-                            Icons.phone_android,
-                            size: 30,
-                            color: Colors.purple,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text(
-                            'Contacto',
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          const SizedBox(
-                            width: 220,
-                          ),
-                         IconButton(
-                            onPressed:() {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ContactScreen()),
-                                    );
-                                  },
-                            icon: const Icon(Icons.arrow_forward_ios,
-                            size: 20,
-                            color: Colors.black,),
-                          ),
-                        ]),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Row(children: [
-                          const Icon(
-                            Icons.shopping_bag,
-                            size: 30,
-                            color: Colors.purple,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text(
-                            'Mis compras',
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          const SizedBox(
-                            width: 190,
-                          ),
-                          IconButton(
-                            onPressed:() {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              MyShoppingScreen()),
-                                    );
-                                  },
-                            icon: const Icon(Icons.arrow_forward_ios,
-                            size: 20,
-                            color: Colors.black,),
-                          ),
-                        ]),
-                      ),
-                    ],
-                  ),
-                  
-                ]),
-              )
-        ],),
-      )
+      appBar: _appBar(context),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            productPageView(height, width),
+            const SizedBox(height: 20.0),
+            profileDetails(context),
+          ],
+        ),
+      ),
     );
   }
 
   Widget productPageView(double height, double width) {
     return Container(
-      height: height * 0.45,
+      height: height * 0.25,
       width: width,
       decoration: const BoxDecoration(
-        color: AppColor.lightYellow,
-        borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(80),
-          bottomLeft: Radius.circular(80),
+        color: AppColor.lightGrey,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 28.0),
+            child: CircleAvatar(
+              radius: 60.0,
+              child: Image.asset("assets/images/avatar.png"),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 5.0, top: 10),
+            child: Text(
+              'araceli@gmail.com',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget profileDetails(BuildContext context) {
+    return Container(
+      height: 500.0,
+      width: 600.0,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30.0),
+      ),
+      child: Column(
+        children: [
+          FutureBuilder<String>(
+            future: authController.getFullNameUser(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              } else {
+                String fullNameUser = snapshot.data ?? '';
+                return _buildProfileInfo('Nombre:   ', fullNameUser);
+              }
+            },
+          ),
+           FutureBuilder<String>(
+            future: authController.getfechaNacimiento(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              } else {
+                String fechaNacimiento = snapshot.data ?? '';
+                return _buildProfileInfo('Fecha de Nacimiento:   ', fechaNacimiento);
+              }
+            },
+          ),
+          buildActionRow(context,Icons.location_on, 'Dirección'),
+          buildActionRow(context,Icons.phone_android, 'Contacto'),
+          buildActionRow(context,Icons.shopping_bag, 'Mis compras'),
+          buildActionRow(context,Icons.login, 'Salir de sesión'),
+        ],
+      ),
+    );
+  }
+
+  Widget buildActionRow(BuildContext context,IconData icon, String text) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: GestureDetector(
+        onTap: () {
+          switch (text) {
+            case 'Dirección':
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AddressScreen()), 
+              );
+              break;
+            case 'Contacto':
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ContactScreen()),  
+              );
+              break;
+                case 'Mis compras':
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),  
+              );
+              break;
+                    default:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),  
+              );
+              break;
+          }
+        },
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 30,
+              color: AppColor.darkPurple,
+            ),
+            const SizedBox(width: 10),
+            Text(
+              text,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const Spacer(),
+            const Icon(
+              Icons.arrow_forward_ios,
+              size: 40,
+              color: AppColor.darkPurple,
+            ),
+          ],
         ),
       ),
     );
@@ -286,7 +192,8 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
-   PreferredSizeWidget _appBar(BuildContext context) {
+
+  PreferredSizeWidget _appBar(BuildContext context) {
     return AppBar(
       title: Text(
         "Mi Perfil",

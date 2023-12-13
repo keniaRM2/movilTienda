@@ -11,7 +11,6 @@ class AddressScreen extends StatefulWidget{
 
 class _AddressScreenState extends State<AddressScreen> {
   final _formKey = GlobalKey<FormState>();
-  var _isButtonDisabled = true;
   final TextEditingController _municipality = TextEditingController(text: '');
   final TextEditingController _postalCode= TextEditingController(text: '');
   final TextEditingController _outdoorNumber =TextEditingController(text: '');
@@ -38,7 +37,6 @@ class _AddressScreenState extends State<AddressScreen> {
                   key: _formKey,
                   onChanged: () {
                     setState(() {
-                      _isButtonDisabled = !_formKey.currentState!.validate();
                     });
                   },
                   child: Column(
@@ -175,12 +173,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                 minimumSize: const Size(300, 50),
                                 backgroundColor: AppColor.lightPurple),
                             onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>LoginScreen()
-                                              ),
-                                    );
+                                  //  Navigator.push(  context,MaterialPageRoute(  builder: (context) =>LoginScreen());                                           ),
                                   },
                             child: const Text('Guardar')),
                       ),

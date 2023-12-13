@@ -11,7 +11,6 @@ class ContactScreen extends StatefulWidget {
 
 class _ContactScreenState extends State<ContactScreen> {
   final _formKey = GlobalKey<FormState>();
-  var _isButtonDisabled = true;
   final TextEditingController _secondEmail = TextEditingController(text: '');
   final TextEditingController _telephone = TextEditingController(text: '');
   final TextEditingController _secondTelephone =TextEditingController(text: '');
@@ -35,7 +34,6 @@ class _ContactScreenState extends State<ContactScreen> {
                   key: _formKey,
                   onChanged: () {
                     setState(() {
-                      _isButtonDisabled = !_formKey.currentState!.validate();
                     });
                   },
                   child: Column(
@@ -49,7 +47,6 @@ class _ContactScreenState extends State<ContactScreen> {
                           
                           if (value == null || value.isEmpty) {
                             return 'Campo obligario';
-                         
                           } else {
                             return null;
                           }
