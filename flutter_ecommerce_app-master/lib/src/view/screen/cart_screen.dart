@@ -40,7 +40,7 @@ class _CartScreenState extends State<CartScreen> {
     controller.loading.value = true;
 
     await controller.getCartItems();
-    // Actualiza la pantalla después de obtener los datos
+    
     controller.loading.value = false;
     setState(() {});
   }
