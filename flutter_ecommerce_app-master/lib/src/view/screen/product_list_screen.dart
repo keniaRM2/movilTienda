@@ -70,8 +70,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               _recommendedProductListView(context),
-              _topCategoriesHeader(context),
-              _topCategoriesListView(),
+              // _topCategoriesHeader(context),
+              // _topCategoriesListView(),
               const SizedBox(height: 20),
               Text(
                 "Lo más reciente ",

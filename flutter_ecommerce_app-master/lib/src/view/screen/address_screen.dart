@@ -1,8 +1,12 @@
 import 'package:e_commerce_flutter/core/app_color.dart';
-import 'package:e_commerce_flutter/src/view/screen/login_screen.dart';
+import 'package:e_commerce_flutter/src/model/direccion_dto.dart';
 import 'package:flutter/material.dart';
+import 'package:e_commerce_flutter/src/controller/auth_controller.dart';
+import 'package:get/get.dart';
 
-class AddressScreen extends StatefulWidget{
+final AuthController authController = Get.put(AuthController());
+
+class AddressScreen extends StatefulWidget {
   const AddressScreen({super.key});
 
   @override
@@ -10,18 +14,71 @@ class AddressScreen extends StatefulWidget{
 }
 
 class _AddressScreenState extends State<AddressScreen> {
+  final DireccionDTO direccionDTO = DireccionDTO();
+
+  @override
+  void initState() {
+    super.initState();
+    // Llama a la función al cargar la pantalla por primera vez
+    _updateScreen();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Llama a la función cada vez que cambian las dependencias
+    _updateScreen();
+  }
+
+  void _updateScreen() {
+    authController.loading.value = true;
+
+    if (!authController.loading.value) {
+      authController.loading.value = true;
+
+      // authController.obtenerUsuarioSecion().then((value) {
+      //   authController.loading.value = false;
+
+      // if(value['direccion'] != null){
+
+      // }
+
+      //   DireccionDTO userData = UserData.fromJson(value);
+
+      //   for (var entry in value.entries) {
+      //     String key = entry.key;
+      //     String value = entry.value.toString();
+      //     myLocalStorage.setValue(key, value);
+      //   }
+
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => const HomeScreen()),
+      //   );
+      // }).catchError((e) {
+      //   authController.loading.value = false;
+      //   myToast.showToastError(context, e.toString());
+      // });
+    }
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _municipality = TextEditingController(text: '');
-  final TextEditingController _postalCode= TextEditingController(text: '');
-  final TextEditingController _outdoorNumber =TextEditingController(text: '');
-  final TextEditingController _interiorNumber= TextEditingController( text: '');
-  final TextEditingController _suburb =TextEditingController( text: '');
-  final TextEditingController _street= TextEditingController( text: '');
+  final TextEditingController _postalCode = TextEditingController(text: '');
+  final TextEditingController _outdoorNumber = TextEditingController(text: '');
+  final TextEditingController _interiorNumber = TextEditingController(text: '');
+  final TextEditingController _suburb = TextEditingController(text: '');
+  final TextEditingController _street = TextEditingController(text: '');
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
         appBar: AppBar(
-            title: const Text('Dirección de Envio',style: TextStyle( fontSize: 16)),
+            title: const Text('Dirección de Envio',
+                style: TextStyle(fontSize: 16)),
             backgroundColor: AppColor.lightPurple),
         body: SingleChildScrollView(
           child: Column(
@@ -36,16 +93,15 @@ class _AddressScreenState extends State<AddressScreen> {
                 child: Form(
                   key: _formKey,
                   onChanged: () {
-                    setState(() {
-                    });
+                    setState(() {});
                   },
                   child: Column(
                     children: <Widget>[
-                       Padding(
+                      Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: TextFormField(
-                          decoration: const InputDecoration(
-                              labelText: 'Estado:'),
+                          decoration:
+                              const InputDecoration(labelText: 'Estado:'),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Campo obligario';
@@ -126,26 +182,23 @@ class _AddressScreenState extends State<AddressScreen> {
                               ),
                             ),
                           ),
-                          const SizedBox(
-                              width:
-                                  16.0), 
+                          const SizedBox(width: 16.0),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                decoration: const InputDecoration(
-                                  labelText: 'Número Interior',
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Campo obligatorio';
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                keyboardType: TextInputType.number,
-                                controller:_interiorNumber
-                              ),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Número Interior',
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Campo obligatorio';
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  keyboardType: TextInputType.number,
+                                  controller: _interiorNumber),
                             ),
                           ),
                         ],
@@ -153,8 +206,8 @@ class _AddressScreenState extends State<AddressScreen> {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: TextFormField(
-                          decoration: const InputDecoration(
-                              labelText: 'Calle:'),
+                          decoration:
+                              const InputDecoration(labelText: 'Calle:'),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Campo obligario';
@@ -173,8 +226,8 @@ class _AddressScreenState extends State<AddressScreen> {
                                 minimumSize: const Size(300, 50),
                                 backgroundColor: AppColor.lightPurple),
                             onPressed: () {
-                                  //  Navigator.push(  context,MaterialPageRoute(  builder: (context) =>LoginScreen());                                           ),
-                                  },
+                              //  Navigator.push(  context,MaterialPageRoute(  builder: (context) =>LoginScreen());                                           ),
+                            },
                             child: const Text('Guardar')),
                       ),
                     ],

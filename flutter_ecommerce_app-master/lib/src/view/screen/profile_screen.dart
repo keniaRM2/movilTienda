@@ -1,16 +1,54 @@
 import 'package:e_commerce_flutter/core/app_color.dart';
 import 'package:e_commerce_flutter/src/view/screen/address_screen.dart';
 import 'package:e_commerce_flutter/src/view/screen/contact_screen.dart';
-import 'package:e_commerce_flutter/src/view/screen/home_screen.dart';
 import 'package:e_commerce_flutter/src/view/screen/login_screen.dart';
-import 'package:e_commerce_flutter/src/view/screen/product_list_screen.dart';
+import 'package:e_commerce_flutter/src/controller/auth_controller.dart';
+import 'package:get/get.dart';
+
+import 'package:e_commerce_flutter/src/view/screen/shopping_screen.dart';
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatelessWidget {
+final AuthController controller = Get.put(AuthController());
+
+
+
+class ProfileScreen extends StatefulWidget {
   // ignore: use_super_parameters
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Llama a la función al cargar la pantalla por primera vez
+    _updateScreen();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Llama a la función cada vez que cambian las dependencias
+    _updateScreen();
+  }
+
+  void _updateScreen() async {
+    controller.loading.value = true;
+
+    // await controller.getAllItems();
+    // Actualiza la pantalla después de obtener los datos
+    controller.loading.value = false;
+    if(mounted){
+      setState(() {});
+    }
+  }
+
+   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -71,7 +109,7 @@ class ProfileScreen extends StatelessWidget {
       child: Column(
         children: [
           FutureBuilder<String>(
-            future: authController.getFullNameUser(),
+            future: controller.getFullNameUser(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -88,7 +126,7 @@ class ProfileScreen extends StatelessWidget {
             },
           ),
            FutureBuilder<String>(
-            future: authController.getfechaNacimiento(),
+            future: controller.getfechaNacimiento(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -134,7 +172,7 @@ class ProfileScreen extends StatelessWidget {
                 case 'Mis compras':
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),  
+                MaterialPageRoute(builder: (context) => const ShoppingScreen()),  
               );
               break;
                     default:
@@ -202,3 +240,10 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
+
+// class ProfileScreen extends StatelessWidget {
+//   // ignore: use_super_parameters
+//   // const ProfileScreen({Key? key}) : super(key: key);
+
+ 
+// }
