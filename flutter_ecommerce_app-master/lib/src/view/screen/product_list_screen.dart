@@ -97,70 +97,67 @@ class _ProductListScreenState extends State<ProductListScreen> {
     );
   }
 
-  PreferredSize _getAppBar(BuildContext context) {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(100),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: FutureBuilder<String>(
-            future: authController.getFullNameUser(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                // Mientras está en espera, puedes mostrar un indicador de carga
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                // En caso de error, puedes manejar el error adecuadamente
-                return Text('Error: ${snapshot.error}');
-              } else {
-                String fullNameUser = snapshot.data ?? '';
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const EmpresaLogoWidget(),
-                    Text(fullNameUser),
-                    if (fullNameUser != '')
-                      _appBarActionButton(AppbarActionType.leading, context),
-
-                    // _appBarActionButton(AppbarActionType.trailing, context),
-                  ],
-                );
-              }
-            },
-          ),
+ PreferredSize _getAppBar(BuildContext context) {
+  return PreferredSize(
+    preferredSize: const Size.fromHeight(100),
+    child: SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: FutureBuilder<String>(
+          future: authController.getFullNameUser(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              String fullNameUser = snapshot.data ?? ''; // User's full name or empty string if not logged in
+              bool isLoggedIn = fullNameUser.isNotEmpty;
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const EmpresaLogoWidget(),
+                  isLoggedIn ? Text(fullNameUser,style: Theme.of(context).textTheme.displayLarge) :  Text('Iniciar Sesión',  
+                  style: Theme.of(context).textTheme.displayLarge),
+                  //if (isLoggedIn) // Show the cart button only if logged in
+                   // _appBarActionButton(AppbarActionType.leading, context),
+                ],
+              );
+            }
+          },
         ),
       ),
-    );
-  }
-
-  Widget _appBarActionButton(AppbarActionType type, BuildContext context) {
-    IconData icon = Icons.shopping_cart;
-
-    return Stack(
-  children: [
-    Container(
-      margin: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: AppColor.darkPurple,
-      ),
-      child: IconButton(
-        padding: const EdgeInsets.all(8),
-        constraints: const BoxConstraints(),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const CartScreen()),
-          );
-        },
-        icon: Icon(icon, color: AppColor.white),
-      ),
     ),
+  );
+}
 
-  ],
-);
+Widget _appBarActionButton(AppbarActionType type, BuildContext context) {
+  IconData icon = Icons.shopping_cart;
 
-  }
+  return Stack(
+    children: [
+      Container(
+        margin: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: AppColor.darkPurple,
+        ),
+        child: IconButton(
+          padding: const EdgeInsets.all(8),
+          constraints: const BoxConstraints(),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const CartScreen()),
+            );
+          },
+          icon: Icon(icon, color: AppColor.white),
+        ),
+      ),
+    ],
+  );
+}
+
 
   Widget _recommendedProductListView(BuildContext context) {
     return SizedBox(

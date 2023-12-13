@@ -61,7 +61,7 @@ class ProductController extends GetxController {
     // calculateTotalPrice();
   }
 
-  void increaseItemQuantity(Product product)  {
+  void increaseItemQuantity(Product product) {
     // int newQuantity = product.quantity + 1;
     // Map<String, dynamic> parameters = {
     //   'idStock': product.idStock,
@@ -75,7 +75,7 @@ class ProductController extends GetxController {
     update();
   }
 
-  void decreaseItemQuantity(Product product)  {
+  void decreaseItemQuantity(Product product) {
     // int newQuantity = product.quantity - 1;
     // if (newQuantity <= 0) {
     //   throw Exception("Cantidad no valida");
@@ -143,7 +143,6 @@ class ProductController extends GetxController {
       };
       productos.add(producto);
     }
-
 
     Map<String, dynamic> parameters = {'productos': productos};
 
@@ -230,6 +229,9 @@ class ProductController extends GetxController {
         for (dynamic productoCarrito in productosCarrito) {
           dynamic stockData = productoCarrito['stock'] as dynamic;
           dynamic productoData = stockData['producto'] as dynamic;
+
+          // ignore: avoid_print
+          print(productoCarrito);
 
           List<dynamic> imagenes = productoData['imagenes'] as List<dynamic>;
           List<String> imagenesString =

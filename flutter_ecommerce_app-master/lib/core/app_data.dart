@@ -74,7 +74,7 @@ class AppData {
       const Icon(Icons.person),
       const Color(0xFF9C27B0),
       Colors.grey,
-      true,
+      false,
        const ProfileScreen(),
     ),
     BottomNavyBarItem(

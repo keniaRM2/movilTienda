@@ -50,10 +50,10 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     });
   }
 
-  List<Widget> misCompras() {
+  List<Widget> miCompras(int index) {
     List<Widget> widgets = [];
 
-    for (var index = 0; index < controller.compras.length; index++) {
+    // for (var index = 0; index < controller.compras.length; index++) {
       CompraDTO compraDTO = controller.compras[index];
       String fechaCompra =
           compraDTO?.fechaCompra?.split("T")?.isNotEmpty == true
@@ -70,7 +70,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
             "Total:  ${compraDTO.total}",
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
-          const SizedBox(height: 8, width: 10),
+          // const SizedBox(height: 8, width: 10),
           Text(
             "Estatus: ${compraDTO.statusNombre}",
             style: const TextStyle(
@@ -78,28 +78,15 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                 fontWeight: FontWeight.bold,
                 fontSize: 18),
           ),
-          const SizedBox(height: 8, width: 10),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HistoryShoppingScreen(),
-                ),
-              );
-            },
-            child: const Icon(
-              Icons.arrow_forward_ios,
-              size: 40,
-              color: AppColor.darkPurple,
-            ),
-          ),
+          // const SizedBox(height: 8, width: 10),
+          
+          
           const SizedBox(height: 8, width: 10),
         ],
       );
-
-      widgets.add(first);
-    }
+      return [first];
+      // widgets.add(first);
+    // }
 
     // for (var index = 0; index < controller.compras.length; index++) {
     //   CompraDTO compraDTO = controller.compras[index];
@@ -206,18 +193,10 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                 itemCount: controller.compras.length,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const HistoryShoppingScreen()),
-                      );
-                    },
                     child: ListTile(
                       title: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: misCompras(),
+                        children: miCompras(index)
                       ),
                     ),
                   );
