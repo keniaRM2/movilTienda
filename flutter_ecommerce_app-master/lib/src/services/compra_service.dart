@@ -10,5 +10,10 @@ class CompraService extends MainService {
     http.Response response = await putRequest(APIConstants.compraRegistrar, parameters);
     return json.decode(response.body);
   }
+
+  Future<List<dynamic>> listarMisCompras() async {
+    http.Response response = await getRequest(APIConstants.compraListarMisCompras);
+    return json.decode(response.body);
+  }
   
 }

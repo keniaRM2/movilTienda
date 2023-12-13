@@ -36,6 +36,7 @@ class APIConstants {
   static const String tipoMedidaObtener = '${ApiConfig.baseUrl}tipoMedida/obtener';
 
   static const String compraListar = '${ApiConfig.baseUrl}compra';
+  static const String compraListarMisCompras = '${ApiConfig.baseUrl}compra/listarMisCompras';
   static const String compraRegistrar = '${ApiConfig.baseUrl}compra/registrar';
   static const String compraObtener = '${ApiConfig.baseUrl}compra/obtener';
   static const String compraActualizar = '${ApiConfig.baseUrl}compra/actualizar';

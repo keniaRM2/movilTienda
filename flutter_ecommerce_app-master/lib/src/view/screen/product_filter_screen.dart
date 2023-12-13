@@ -40,7 +40,7 @@ class _ProductListScreenState extends State<ProductFilterScreen> {
     controller.loading.value = true;
 
     await controller.getAllItems();
-    // Actualiza la pantalla después de obtener los datos
+    
     controller.loading.value = false;
     if(mounted){
       setState(() {});
