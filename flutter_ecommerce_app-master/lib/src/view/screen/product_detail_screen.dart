@@ -1,6 +1,5 @@
 import 'package:e_commerce_flutter/core/my_toast.dart';
 import 'package:e_commerce_flutter/src/view/screen/address_screen.dart';
-import 'package:e_commerce_flutter/src/view/screen/cart_screen.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_flutter/core/app_color.dart';

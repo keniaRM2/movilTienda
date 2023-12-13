@@ -156,24 +156,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
         icon: Icon(icon, color: AppColor.white),
       ),
     ),
-    Positioned(
-      top: 0,
-      right: 0,
-      child: Container(
-        padding: const EdgeInsets.all(4),
-        decoration: const BoxDecoration(
-          color: Colors.red,
-          shape: BoxShape.circle,
-        ),
-        child: const Text(
-          '10', // Aquí deberías colocar la cantidad de productos
-          style:  TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    ),
+
   ],
 );
 

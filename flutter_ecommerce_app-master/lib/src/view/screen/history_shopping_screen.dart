@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class HistoryShoppingScreen extends StatelessWidget {
   // ignore: use_key_in_widget_constructors
   const HistoryShoppingScreen({Key? key});
+  
 
   PreferredSizeWidget _appBar(BuildContext context) {
     return AppBar(
@@ -162,3 +163,5 @@ final List<FeedItem> _feedItems = [
     retweetsCount: 1,
   ),
 ];
+
+
