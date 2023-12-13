@@ -23,6 +23,7 @@ class APIConstants {
   static const String usuarioActualizar = '${ApiConfig.baseUrl}usuario/actualizar';
 
   static const String generoListar = '${ApiConfig.baseUrl}genero';
+  static const String generoObtener = '${ApiConfig.baseUrl}genero/obtener';
 
 
   static const String tallaListar = '${ApiConfig.baseUrl}talla';

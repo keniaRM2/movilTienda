@@ -18,8 +18,16 @@ class AuthController extends GetxController {
     return await authService.login(parameters);
   }
 
+  Future<dynamic> obtenerUsuarioSecion() async {
+    Map<String, dynamic> parameters = {};
+    return await authService.obtenerUsuarioSecion(parameters);
+  }
+
   Future<String> getFullNameUser() async {
     return myLocalStorage.getValue(MainConstants.nombreCompleto);
+  }
+  Future<String> getfechaNacimiento() async {
+    return myLocalStorage.getValue(MainConstants.fechaNacimiento);
   }
 
   Future<bool> isAuthenticated() async {

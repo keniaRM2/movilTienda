@@ -10,5 +10,9 @@ class AuthService extends MainService {
     http.Response response = await postRequest(APIConstants.login, parameters);
     return json.decode(response.body);
   }
+  Future<dynamic> obtenerUsuarioSecion(Map<String, dynamic> parameters) async {
+    http.Response response = await postRequest(APIConstants.usuarioObtener, parameters);
+    return json.decode(response.body);
+  }
   
 }
